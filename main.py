@@ -1,7 +1,7 @@
-from swapi.api import Swapi
+from swapi.swapi import SWAPI
 
 # Ініціалізуємо клієнт SWAPI
-swapi = Swapi()
+swapi = SWAPI()
 
 def get_film_details(film_id):
     # Отримуємо дані про фільм
