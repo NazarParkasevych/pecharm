@@ -1,41 +1,26 @@
-from swapi.swapi import SWAPI
-
-# Ініціалізуємо клієнт SWAPI
-swapi = SWAPI()
-
-def get_film_details(film_id):
-    # Отримуємо дані про фільм
-    film = swapi.get_film(film_id)
-
-    # Виводимо назву фільму
+from swapi import get_film, get_person
+def get_films_info(film_id):
+    film = get_film(film_id)
+    characters = film.get_characters()
+    vehicles = film.get_vehicles()
+    starships = film.get_starships()
+    species = film.get_species()
     print(f"Фільм: {film.title}")
+    print(f"Персонажі: ")
+    for index, character in enumerate(characters, 1):
+        homeworld = get_person(character).get_homeworld()
+        homeworld_name = homeworld.name if homeworld else "не відомо"
+        print(f"{index}, {character.name} з планети {homeworld_name}")
+    print(f"Транспортні засоби: ")
+    for index, vehicle in enumerate(vehicles, 1):
+        print(f"{index}, {vehicle.name}")
+    print(f"Космічні кораблі: ")
+    for index, starship in enumerate(starships, 1):
+        print(f"{index}, {starship.name}")
+    print(f"Види істот: ")
+    for index, specie in enumerate(species, 1):
+        print(f"{index}, {specie.name}")
+if __name__ == '__main__':
+    film_id = input('Введіть ідентифікатор фільму: ')
+    get_films_info(film_id)
 
-    # Виводимо персонажів та їх планети
-    print("Персонажі:")
-    for character_url in film.characters:
-        character = swapi.get_person(character_url)
-        homeworld = swapi.get_planet(character.homeworld)
-        print(f"{character.name} з планети {homeworld.name}")
-
-    # Виводимо транспортні засоби
-    print("Транспортні засоби:")
-    for vehicle_url in film.vehicles:
-        vehicle = swapi.get_vehicle(vehicle_url)
-        print(vehicle.name)
-
-    # Виводимо космічні кораблі
-    print("Космічні кораблі:")
-    for starship_url in film.starships:
-        starship = swapi.get_starship(starship_url)
-        print(starship.name)
-
-    # Виводимо види істот
-    print("Види істот:")
-    for species_url in film.species:
-        species = swapi.get_species(species_url)
-        print(species.name)
-
-
-if __name__ == "__main__":
-    film_id = input("Введіть ідентифікатор фільму: ")
-    get_film_details(film_id)
